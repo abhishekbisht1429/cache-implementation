@@ -13,8 +13,8 @@ struct node {
 
     node(): key(0), val(0), freq(0), pos(-1) {}
 
-    node(int key, int val, int freq):
-        key(key), val(val), freq(freq), pos(-1) {}
+    node(int key, int val):
+        key(key), val(val), freq(0), pos(-1) {}
 
     bool operator<(const node &nd) {
         return (this->freq < nd.freq)?true:(this->ts < nd.ts); 
@@ -89,6 +89,7 @@ class heap {
         tree[size] = nd;
         tree[size]->pos = size;
         tree[size]->ts = get_time_stamp();
+        tree[size]->freq = 1;
         heapifyUp(size++);
     }
 
@@ -158,7 +159,7 @@ class lfu_cache {
                 size--;
                 delete temp;
             }
-            cache[key] = new node(key, val, 1);
+            cache[key] = new node(key, val);
             min_heap->insert(cache[key]);
             size++;
         }
