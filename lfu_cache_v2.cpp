@@ -96,14 +96,6 @@ class list {
         return detach(_back);
     }
 
-    // public:void delete_node(node *nd) {
-    //     if(nd == nullptr)
-    //         return;
-        
-    //     detach(nd);
-    //     delete nd;
-    // }
-
     public:bool empty() {
         return _back == nullptr;
     }
@@ -153,7 +145,6 @@ void print_li(list *li) {
     }
     cout<<"\n";
 }
-
 
 class freq_list : private list {
 
@@ -243,13 +234,14 @@ class lfu_cache {
 
     public:lfu_cache(int cap) {
         this->_cap = cap;
+        this->_size = 0;
     }
 
     public:void set(int key, int val) {
         if(cache.find(key) != cache.end()) {
             cache[key]->val = val;
             f_list.increment_freq(cache[key]);
-        } else {
+        } else if(_cap > 0) {
             if(_size == _cap) {
                 data_node *temp = f_list.detach_lfu();
                 cache.erase(temp->key);
@@ -278,52 +270,42 @@ class lfu_cache {
 };
 
 int main() {
-    // list li;
-    // data_node arr[10];
-    // for(int i=0; i<10; ++i)
-    //     arr[i] = data_node(i, 1000*i);
-    // li.push_back(&arr[0]);
-    // li.push_back(&arr[1]);
-    // li.push_front(&arr[2]);
-    // li.insertAfter(&arr[0], &arr[5]);
-    // li.insertAfter(&arr[1], &arr[7]);
-    // li.insertBefore(&arr[2], &arr[9]);
-    // li.insertBefore(&arr[0], &arr[8]);
-    // li.pop_back();
-    // li.pop_front();
-    // li.detach(&arr[0]);
-    // print_li(&li);
+    cout<<"Enter Capacity : ";
+    int cap;
+    cin>>cap;
+    if(cap<0) {
+        cout<<"Capcity should be non negetive\n";
+        return 0;
+    }
 
-    // freq_list fli;
-    // fli.insert_dnode(&arr[0]);
-    // fli.insert_dnode(&arr[1]);
-    // fli.insert_dnode(&arr[2]);
-    // fli.insert_dnode(&arr[3]);
-    // fli.increment_freq(&arr[0]);
-    // fli.increment_freq(&arr[0]);
-    // fli.increment_freq(&arr[2]);
-    // fli.increment_freq(&arr[3]);
-    // fli.print();
-    // cout<<"\n";
-    
-    // fli.detach_lfu();
-    // fli.print();
-    // cout<<"\n";
-
-    // fli.detach_lfu();
-    // fli.print();
-    // cout<<"\n";
-
-    // fli.detach_lfu();
-    // fli.print();
-    // cout<<"\n";
-
-    lfu_cache cache(3);
-    int arr[] = {1, 2, 3, 4, 1, 2, 5, 1, 2, 3, 4, 5};
-
-    for(int i=0; i<sizeof(arr)/sizeof(int); ++i) {
-        cache.set(arr[i], arr[i]*1000);
-        cout<<arr[i]<<" ";
-        cache.display();
+    lfu_cache cache(cap);
+    while(1) {
+        cout<<"=============================\n";
+        cout<<"1. get\n2. set\n3. exit\nchoice : ";
+        int type;
+        cin>>type;
+        bool exit = false;
+        switch(type) {
+            case 1: {
+                int key;
+                cin>>key;
+                cout<<cache.get(key)<<"\n";
+                break;
+            }
+            case 2: {
+                int key, val;
+                cin>>key>>val;
+                cache.set(key, val);
+                break;
+            }
+            case 3: {
+                exit = true;
+                break;
+            }
+            default: {
+                cout<<"Invalid Option\n";
+            }
+        }
+        if(exit) break;
     }
 }
