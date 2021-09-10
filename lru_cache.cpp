@@ -106,6 +106,8 @@ class lru_cache {
             li.detach(cache[key]);
             li.push_back(cache[key]);
             return;
+        } else if(cap < 0) {
+            return;
         }
         if(li.get_count() == cap) {
             /* 
@@ -135,13 +137,42 @@ class lru_cache {
 };
 
 int main() {
-    lru_cache cache(3);
+    cout<<"Enter Capacity : ";
+    int cap;
+    cin>>cap;
+    if(cap<0) {
+        cout<<"Capcity should be non negetive\n";
+        return 0;
+    }
 
-    int arr[] = {1, 2, 3, 4, 1, 2, 5, 1, 2, 3, 4, 5};
-
-    for(int i=0; i<sizeof(arr)/sizeof(int); ++i) {
-        cache.set(arr[i], arr[i]*1000);
-        cout<<arr[i]<<" ";
-        cache.display();
+    lru_cache cache(cap);
+    while(1) {
+        cout<<"=============================\n";
+        cout<<"1. get\n2. set\n3. exit\nchoice : ";
+        int type;
+        cin>>type;
+        bool exit = false;
+        switch(type) {
+            case 1: {
+                int key;
+                cin>>key;
+                cout<<cache.get(key)<<"\n";
+                break;
+            }
+            case 2: {
+                int key, val;
+                cin>>key>>val;
+                cache.set(key, val);
+                break;
+            }
+            case 3: {
+                exit = true;
+                break;
+            }
+            default: {
+                cout<<"Invalid Option\n";
+            }
+        }
+        if(exit) break;
     }
 }
