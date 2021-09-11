@@ -20,8 +20,8 @@ class list {
     public:void push_back(node *nd) {
         if(nd == nullptr)
             return;
-        _size++;
         if(empty()) {
+            _size++;
             _back = nd;
             _front = nd;
             return;
@@ -33,8 +33,8 @@ class list {
     public:void push_front(node *nd) {
         if(nd == nullptr)
             return;
-        _size++;
         if(empty()) {
+            _size++;
             _back = nd;
             _front = nd;
             return;
