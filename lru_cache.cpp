@@ -117,7 +117,7 @@ class lru_cache {
             */
             node *temp = li.pop_front();
             cache.erase(temp->key);
-            delete[] temp;
+            delete temp;
         }
 
         cache[key] = new node(key, val);
